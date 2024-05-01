@@ -11,7 +11,9 @@ This is a repo document the playwright learnings
 
 ## Install Playwright
 
-    1. Npm init playwright@latest
+```bash
+npm init playwright@latest
+```
 
 ## Run the test through command line
 
@@ -31,6 +33,41 @@ npx playwright test --project=chromium
 
 ```bash
 npx playwright test --project=chromium --headed
+```
+
+## Run a specific spec
+
+```bash
+npx playwright test  example.spec.ts --project=chromium --headed
+```
+
+## Run a specific test in a spec file
+
+```bash
+npx playwright test  -g "has title" --project=chromium --headed
+```
+
+## Skip a particular test
+
+use test.skip
+```bash
+test.skip('has title', async ({ page }) => {
+  await page.goto('https://playwright.dev/');
+
+  // Expect a title "to contain" a substring.
+  await expect(page).toHaveTitle(/Playwright/);
+});
+```
+
+## Run only a particular test
+
+```bash
+test.only('has title', async ({ page }) => {
+  await page.goto('https://playwright.dev/');
+
+  // Expect a title "to contain" a substring.
+  await expect(page).toHaveTitle(/Playwright/);
+});
 ```
 
 ## See the report
