@@ -23,31 +23,31 @@ By default this will run all the tests headlessly in three browsers defined in p
 npx playwright test
 ```
 
-## Run in a specific browser
+### Run in a specific browser
 
 ```bash
 npx playwright test --project=chromium
 ```
 
-## Run in headed mode '
+### Run in headed mode '
 
 ```bash
 npx playwright test --project=chromium --headed
 ```
 
-## Run a specific spec
+### Run a specific spec
 
 ```bash
 npx playwright test  example.spec.ts --project=chromium --headed
 ```
 
-## Run a specific test in a spec file
+### Run a specific test in a spec file
 
 ```bash
 npx playwright test  -g "has title" --project=chromium --headed
 ```
 
-## Skip a particular test
+### Skip a particular test
 
 use test.skip
 ```bash
@@ -59,7 +59,7 @@ test.skip('has title', async ({ page }) => {
 });
 ```
 
-## Run only a particular test
+### Run only a particular test
 
 ```bash
 test.only('has title', async ({ page }) => {
@@ -70,8 +70,12 @@ test.only('has title', async ({ page }) => {
 });
 ```
 
-## See the report
+### See the report
 
 ```bash
 npx playwright show-report
 ```
+
+## Run the test in UI Mode
+Once you've installed the Playwright extension in VS Code, you'll notice an icon resembling a lab container. Click on it to reveal the available tests, which can be run individually or in batches. Simply click the play button to execute the selected tests.
+
