@@ -1,6 +1,13 @@
 # PlayWrightForme
 
 This is a repo document the playwright learnings
+Documentation : https://playwright.dev/docs/intro
+Ngx-Admin Angular 14 application from https://github.com/bondar-artem/pw-practice-app
+
+```bash
+npm install --force
+npm start
+```
 
 ## Pre-requisites
 
@@ -179,4 +186,26 @@ test.beforeEach(async ({ page }) => {
     await page.goto('https://demo.playwright.dev/todomvc');
         await expect(page).toHaveTitle(/TodoMVC/);
 })
+```
+
+## Locators unique to playwright
+
+### Locate by partial and exact match
+
+```bash
+page.locator(':text("partialtext")') //locator using partial text
+page.locator (':text-is("exacttext")') //exact text match
+```
+
+### User Facing Locators
+
+user facing locator.It has more than 50 attributes supported.
+
+```bash
+await page.getByRole('textbox',{name:"Email"}).first().click();   
+await page.getByRole('button',{name:"Sign in"}).first().click();    
+await page.getByLabel('Email').first().fill('Ravi.gajul@test.com');  
+await page.getByPlaceholder('Password').first().fill('Ravipassword');  
+await page.getByText('Sign in').first().click();     
+await page.getByTitle('IOT Dashboard').first().click();  
 ```
