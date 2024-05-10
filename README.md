@@ -1,4 +1,4 @@
-# PlayWrightForme
+# PlayWrightForMe
 
 This is a repo document the playwright learnings
 Documentation : https://playwright.dev/docs/intro
