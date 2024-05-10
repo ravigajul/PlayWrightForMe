@@ -192,7 +192,7 @@ test.beforeEach(async ({ page }) => {
 
 ### Locate by partial and exact match
 
-```bash
+```javascript
 page.locator(':text("partialtext")') //locator using partial text
 page.locator (':text-is("exacttext")') //exact text match
 ```
@@ -201,7 +201,7 @@ page.locator (':text-is("exacttext")') //exact text match
 
 user facing locator.It has more than 50 attributes supported.
 
-```bash
+```javascript
 await page.getByRole('textbox',{name:"Email"}).first().click();   
 await page.getByRole('button',{name:"Sign in"}).first().click();    
 await page.getByLabel('Email').first().fill('Ravi.gajul@test.com');  
