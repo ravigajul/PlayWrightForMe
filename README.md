@@ -335,7 +335,10 @@ const text = await basicFormButton.textContent();
 expect(text).toEqual('Submit');
 
 //locator assertion expect receives locator and we can see multiple locator assertions . Mouseover the toHaveText method (this method would not have shown if the expect has text instead of locator)
-await expect(basicFormButton).toHaveText('Submit')
+await expect(basicFormButton).toHaveText('Submit');
+
+//toHaveText will not work for input fields. We have to use toHaveValue
+expect (await usingTheGridEmailInput).toHaveValue('testing@test.com');
 
 //soft assertion. Test can continue even if assertion fails
 await expect.soft(basicFormButton).toHaveText('Submit');
@@ -350,7 +353,112 @@ await basicFormButton.click()//click would still happen even if above soft asser
 await txtElement.waitFor({ state: "attached" });
 const allContents = await txtElement.allTextContents();
 expect(allContents).toContain("Data loaded with AJAX get request.");
+```
 
+## Overwrite timeout
+
+```javascript
 //overload timeout
 expect(successButton).toHaveText('data loaded',{timeout:30000});
 ```
+
+## Other waits
+
+```javascript
+//wait for selector
+  await page.waitForSelector("#content>p");
+
+  //wait for particular response
+  await page.waitForResponse("http://uitestingplayground.com/ajaxdata");
+
+  //wait for network calls to be completed
+  await page.waitForLoadState("networkidle"); //discouraged
+  ```
+
+## Timeouts
+
+1. Playwright has globaltimeout, testTimeout, action and navigationTimeout.
+2. action & navigationTimeout always less then test timeout
+3. testtimeout is always less than globaltimeout.
+4. only testimeout has default configuration of 30 seconds
+5. expect timeout has default confifuation of 5 seconds
+6. The rest of the timouts have no default configurations.
+7. plawright.config.ts is the place where we can configure timeouts.
+8. The values in playwright.config.ts can be overridden with spec file 
+9. Even if actiontimeout declared is more than  timeout in config file, it will still not wait for more than timeout(testtimeout)
+
+```javascript
+timeout: 10000, //test timeout
+globalTimeout: 30000, //global timeout
+expect : {
+    timeout: 10000
+},
+use:{
+    actionTimeout:5000 
+    navigationTimeout:5000
+}
+```
+
+### ways to overwrite
+
+```javascript
+//suite level
+test.beforeEach(async ({ page },testInfo) => {
+  await page.goto("http://uitestingplayground.com/ajax");
+  const ajaxButton = page.locator("#ajaxButton");
+  await ajaxButton.click();
+  testInfo.setTimeout(testInfo.timeout + 30000) //increasing the default timeout by 30 seconds
+});
+
+//overwrites test timeout
+test.setTimeout(30000);
+
+//multiply the timeout by 3 times
+test.slow()
+
+//action timeout
+await successButton.click({ timeout: 30000 })
+```
+
+## UI Actions
+
+### Text Box
+
+```javascript
+//Input Field
+await page.locator('inputfield').fill('test'); //to fill value to input field
+await page.locator('inputfield').clear(); //clear values
+await page.locator('inputfield').pressSequentially('testing'); //simulate keyboard inputs
+expect (await usingTheGridEmailInput).toHaveValue('testing@test.com'); //to have text will not work for input elements
+```
+
+### Radio Button
+
+```javascript
+//Radio button
+check()
+check({force:true}) //if invisible
+await expect(locator).toBeChecked(); //locator assertion
+expect(radio.isChecked()).toBeTruthy();
+expect(radio.isChecked()).toBeFalsy();
+```
+
+### Check Box
+
+```javascript
+//checkbox 
+await page.getByRole("checkbox", { name: "Hide on click" }).click({ force: true }); //will not check the status of check
+
+//Ensure that element is a checkbox or a radio input. If not, this method throws. If the element is already checked, this method returns immediately.
+await page.getByRole("checkbox", { name: "Prevent arising of duplicate toast" }).check({force:true}); 
+await page.getByRole("checkbox", { name: "Show toast with icon" }).uncheck({force:true}); //will not uncheck as it is already checked.
+
+//select all checkboxes
+//When the locator points to a list of elements, all() returns an array of locators, pointing to their respective elements. 
+for (const box of await page.getByRole('checkbox').all()){
+    await box.check();
+}
+    
+```
+
+## List Items or DropDown
