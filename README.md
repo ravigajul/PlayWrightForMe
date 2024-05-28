@@ -340,6 +340,9 @@ await expect(basicFormButton).toHaveText('Submit');
 //toHaveText will not work for input fields. We have to use toHaveValue
 expect (await usingTheGridEmailInput).toHaveValue('testing@test.com');
 
+//not to have 
+ await expect(page.locator('table tr').first()).not.toHaveText('fat@yandex.ru');
+ 
 //soft assertion. Test can continue even if assertion fails
 await expect.soft(basicFormButton).toHaveText('Submit');
 await basicFormButton.click()//click would still happen even if above soft assertion failed
@@ -462,3 +465,47 @@ for (const box of await page.getByRole('checkbox').all()){
 ```
 
 ## List Items or DropDown
+
+```javascript
+page.getByRole('list'); //when the list has a ul tag.Parent container
+page.getByRole('listitem'); //when the list has li tag. All items in parent container
+await expect(listItems).toHaveText(["Light", "Dark", "Cosmic", "Corporate"]); //validate list content
+await listItems.filter({ hasText: "Cosmic" }).click(); //select the items from the list
+const listItems = page.locator("nb-option-list nb-option");
+await listItems.filter({hasText:"Cosmic"}).click();
+//loop through the list
+for(const item of await listItems.all()){ //all() converts to locator array
+  await item.click();
+  if(await item.textContent()!=='Corporate'){
+    await dropDownMenu.click();
+  }
+}
+```
+
+## ToolTip
+
+Press F8 when in source tab of developer tools to pause the debugger on mouse hover so that you can inspect the tool tip
+
+```javascript
+
+page.getByRole('tooltip') // this works only if role tooltip is defined.
+//hover method
+await page.locator("nb-card", { hasText: "Tooltip Placements" }).getByRole('button',{name:"Top"}).hover();
+expect(await page.locator('nb-tooltip div span').textContent()).toEqual('This is a tooltip');
+```
+
+## Dialog Boxes
+
+By default, playwright dismisses the window alerts. We shall create a listener,
+which is Emitted when a JavaScript dialog appears, such as alert, prompt, confirm or beforeunload. Listener must either dialog.accept([promptText]) or dialog.dismiss() the dialog - otherwise the page will freeze waiting for the dialog, and actions like click will never finish.
+Note : When no page.on('dialog') or browserContext.on('dialog') listeners are present, all dialogs are automatically dismissed.
+
+```javascript
+page.on('dialog',dialog=>{
+expect(dialog.message()).toEqual('Are you sure you want to delete?');
+dialog.accept();
+ })
+//the dialog box is dismissed by default
+await page.getByRole('table').locator('tr',{hasText:"fat@yandex.ru"}).locator('.nb-trash').click();
+await expect(page.locator('table tr').first()).not.toHaveText('fat@yandex.ru');
+```
