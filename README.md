@@ -509,3 +509,93 @@ dialog.accept();
 await page.getByRole('table').locator('tr',{hasText:"fat@yandex.ru"}).locator('.nb-trash').click();
 await expect(page.locator('table tr').first()).not.toHaveText('fat@yandex.ru');
 ```
+
+## WebTables
+
+## Date Pickers
+
+```javascript
+test("Date Picker", async ({ page }) => {
+  await page.goto("http://localhost:4200/pages/iot-dashboard");
+  await page.getByText("Forms").click();
+  await page.getByText("Datepicker").click();
+  const calendarInputField = await page.getByPlaceholder("Form Picker");
+  await calendarInputField.click();
+  //here 30 matches with april 30 as well as May 30 in current view. The difference is class="bounding-month day-cell ng-star-inserted" for the previous month and class="day-cell ng-star-inserted" for the current month
+  let date = new Date();
+  date.setDate(date.getDate() + 100); //to ensure 28+4 is 1st june and not 32
+  const expectedDate = date.getDate().toString(); //getDate returns number so converting to string
+  const expectedShortMonth = date.toLocaleString("En-US", { month: "short" });
+  const expectedLongMonth = date.toLocaleString("En-US", { month: "long" });
+  const expectedYear = date.getFullYear();
+  const dateToAssert = `${expectedShortMonth} ${expectedDate}, ${expectedYear}`;
+
+  let calendarMonthAndYear = await page
+    .locator("nb-calendar-view-mode")
+    .textContent();
+  const expectedMonthAndYear = ` ${expectedLongMonth} ${expectedYear}`;
+  while (!calendarMonthAndYear?.includes(expectedMonthAndYear)) {
+    await page
+      .locator('nb-calendar-pageable-navigation [data-name="chevron-right"]')
+      .click();
+    calendarMonthAndYear = await page
+      .locator("nb-calendar-view-mode")
+      .textContent();
+  }
+  await page
+    .locator('[class="day-cell ng-star-inserted"]')
+    .getByText(expectedDate, { exact: true }) //if the value is 1 it matches with 1 and 11 to 19 . exact match to avoid this.
+    .click();
+  expect(calendarInputField).toHaveValue(dateToAssert);
+});
+```
+
+## Sliders - Simulating mouse operations
+
+```javascript
+await page.goto("http://localhost:4200/pages/iot-dashboard");
+  
+  //update attributes using javascript
+  const tempGauge = page.locator('[tabtitle="Temperature"] ngx-temperature-dragger circle')
+  await tempGauge.evaluate(node=>{
+    node.setAttribute('cx','232.630'),
+    node.setAttribute('cy','232.630')
+  }) //this will just slide the circle but event is not triggered
+  await tempGauge.click(); //this will trigger the event
+  
+  //simulating mouse movement
+  const tempBox = page.locator('[tabtitle="Temperature"] ngx-temperature-dragger')
+  await tempBox.scrollIntoViewIfNeeded() //scrolling into view 
+
+  const box = await tempBox.boundingBox();
+  if(box){
+  const x = box.x + box.width/2;
+  const y = box.y + box.height/2;
+  await page.mouse.move(x+100, y);
+  await page.mouse.down();
+  await page.mouse.move(x + 100, y);
+  await page.mouse.move(x + 100, y+100);
+  await page.mouse.up();
+  await expect(tempBox).toContainText('30');
+  }
+
+```
+
+## Drag and Drop with iFrames
+
+## Authentication
+
+### Load authenticated state
+Run with --load-storage to consume the previously loaded storage from the auth.json. This way, all cookies and localStorage will be restored, bringing most web apps to the authenticated state without the need to login again. This means you can can continue generating tests from the logged in state.
+
+```javascript
+npx playwright codegen --load-storage=auth.json github.com/microsoft/playwright
+```
+
+```javascript
+test.use({storageState:'auth.json'});
+
+test('test',async ({page})=>{
+    await page.goto ('https://github.com/microsoft/playwright')
+})
+```
