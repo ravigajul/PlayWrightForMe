@@ -587,7 +587,7 @@ await page.goto("http://localhost:4200/pages/iot-dashboard");
 
 ### Preserve authenticated state
 
-Run with --load-storage to consume the previously loaded storage from the auth.json. This way, all cookies and localStorage will be restored, bringing most web apps to the authenticated state without the need to login again. This means you can can continue generating tests from the logged in state.
+Run codegen with --save-storage to save cookies and localStorage at the end of the session. This is useful to separately record an authentication step and reuse it later when recording more tests.
 
 ```javascript
 npx playwright codegen --load-storage=auth.json github.com/microsoft/playwright
@@ -608,3 +608,8 @@ Run with --load-storage to consume the previously loaded storage from the auth.j
 ```javascript
 npx playwright codegen --load-storage=auth.json github.com/microsoft/playwright
 ```
+
+
+## References
+https://playwright.dev/docs/intro
+https://github.com/microsoft/playwright
