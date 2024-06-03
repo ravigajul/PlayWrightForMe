@@ -611,5 +611,6 @@ npx playwright codegen --load-storage=auth.json github.com/microsoft/playwright
 
 
 ## References
-https://playwright.dev/docs/intro
-https://github.com/microsoft/playwright
+
+1. https://playwright.dev/docs/intro
+2. https://github.com/microsoft/playwright
