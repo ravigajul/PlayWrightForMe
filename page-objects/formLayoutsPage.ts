@@ -1,16 +1,16 @@
 import { Page } from "@playwright/test";
+import { BasePage } from "./basePage";
 
-export class FormLayoutsPage {
-  private readonly page: Page;
+export class FormLayoutsPage extends BasePage {
   constructor(page: Page) {
-    this.page = page;
+    super(page);
   }
 
   /**
-   * 
+   *
    * @param email - Valid email id of the user
    * @param password - password of the user
-   * @param optionText - label of the radio button to be selected 
+   * @param optionText - label of the radio button to be selected
    */
   async submitUsingTheGridFormWithCredentialsAndSelectOption(
     email: string,
@@ -31,7 +31,7 @@ export class FormLayoutsPage {
   }
 
   /**
-   * 
+   *
    * @param name --should be first name and last name
    * @param email -- valid email for the test user
    * @param rememberMe -- true or false

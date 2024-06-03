@@ -1,9 +1,9 @@
 import { Page, expect } from "@playwright/test";
+import { BasePage } from "./basePage";
 
-export class DatepickerPage {
-  private readonly page: Page;
+export class DatepickerPage extends BasePage {
   constructor(page: Page) {
-    this.page = page;
+    super(page);
   }
   async selectCommonDatePickerDateFromToday(numberOfDaysFromToday: number) {
     const calendarInputField = this.page.getByPlaceholder("Form Picker");
@@ -51,8 +51,9 @@ export class DatepickerPage {
         .textContent();
     } //if the value is 1 it matches with 1 and 11 to 19 . exact match to avoid this..click();
     await this.page
-      .locator('.day-cell.ng-star-inserted')
-      .getByText(expectedDate, { exact: true }).click();
+      .locator(".day-cell.ng-star-inserted")
+      .getByText(expectedDate, { exact: true })
+      .click();
     return dateToAssert;
   }
 }

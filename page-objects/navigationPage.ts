@@ -1,10 +1,9 @@
 import { Page } from "@playwright/test";
+import { BasePage } from "./basePage";
 
-export class NavigationPage {
-  readonly page: Page;
-
+export class NavigationPage extends BasePage {
   constructor(page: Page) {
-    this.page = page;
+    super(page);
   }
 
   async formLayoutsPage() {
