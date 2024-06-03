@@ -26,11 +26,11 @@ test("Auto Wait", async ({ page }) => {
   expect(allContents).toContain("Data loaded with AJAX get request.");
 
   //wait for selector
-  await page.waitForSelector("#content>p");
+  //await page.waitForSelector("#content>p");
 
   //wait for particular response
-  await page.waitForResponse("http://uitestingplayground.com/ajaxdata")
+  //await page.waitForResponse("http://uitestingplayground.com/ajaxdata")
 
   //wait for network calls to be completed
-  await page.waitForLoadState("networkidle") //discouraged
+  //await page.waitForLoadState("networkidle") //discouraged
 });
