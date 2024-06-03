@@ -3,15 +3,24 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "pagetests-chrome": "npx playwright test usePageObjects.spec.ts --project=chromium --headed",
+    "pagetests-firefox": "npx playwright test usePageObjects.spec.ts --project=firefox --headed",
+    "pagetests-all": "npm run pagetests-chrome && npm run pagetests-firefox",
+    "dev-pagetests": "npx playwright test usePageObjects.spec.ts --project=dev --headed",
+    "staging-pagetests": "npx playwright test usePageObjects.spec.ts --project=staging --headed",
+    "autowaittest": "set URL=http://uitestingplayground.com/ajax && npx playwright test autowaiting.spec.ts --project=chromium --headed"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
     "@playwright/test": "^1.43.1",
     "@types/node": "^20.12.7"
   },
   "dependencies": {
+    "dotenv": "^16.4.5",
     "nvm": "^0.0.4"
   }
 }

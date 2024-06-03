@@ -605,10 +605,124 @@ test('test',async ({page})=>{
 
 Run with --load-storage to consume the previously loaded storage from the auth.json. This way, all cookies and localStorage will be restored, bringing most web apps to the authenticated state without the need to login again. This means you can can continue generating tests from the logged in state.
 
+
 ```javascript
 npx playwright codegen --load-storage=auth.json github.com/microsoft/playwright
 ```
 
+## Mocking API Response
+
+https://playwright.dev/docs/mock
+
+```javascript
+import { test, expect } from "@playwright/test";
+test("mocks a fruit and doesn't call api", async ({ page }) => {
+
+  // Mock the api call before navigating
+  await page.route("*/**/api/v1/fruits", async (route) => {
+
+    //creating the mock object of the response to be rendered
+    const json = [{ name: "No Data found" }];
+
+    //fullfulling the request
+    await route.fulfill({ json });
+  });
+  
+  // Go to the page
+  await page.goto("https://demo.playwright.dev/api-mocking");
+
+  // Assert that the Strawberry fruit is visible
+  await expect(page.getByText("No Data found")).toBeVisible();
+});
+
+```
+
+## Retries
+
+```javascript
+# Give failing tests 3 retry attempts
+npx playwright test --retries=3
+```
+
+### Retries configured in playwright.config.ts
+
+```javascript
+import { defineConfig } from '@playwright/test';
+
+export default defineConfig({
+  // Give failing tests 3 retry attempts
+  retries: 3,
+});
+```
+
+###  Retries for group of tests
+
+You can specify retries for a specific group of tests or a single file with test.describe.configure().
+
+```javascript
+import { test, expect } from '@playwright/test';
+
+test.describe(() => {
+  // All tests in this describe group will get 2 retry attempts.
+  test.describe.configure({ retries: 2 });
+
+  test('test 1', async ({ page }) => {
+    // ...
+  });
+
+  test('test 2', async ({ page }) => {
+    // ...
+  });
+});
+```
+
+## Environment Variables
+
+https://playwright.dev/docs/test-projects#configure-projects-for-multiple-environments
+
+plawright.config.ts
+
+```javascript
+import { defineConfig } from '@playwright/test';
+
+export default defineConfig({
+  timeout: 60000, // Timeout is shared between all tests.
+  projects: [
+    {
+      name: 'staging',
+      use: {
+        baseURL: 'staging.example.com',
+      },
+      retries: 2,
+    },
+    {
+      name: 'production',
+      use: {
+        baseURL: 'production.example.com',
+      },
+      retries: 0,
+    },
+  ],
+});
+```
+
+## Environment Variable dotenv
+
+Install the dotenv package and uncomment the require('dotenv').config() from playwright.config.ts. o pass an environment variable from the command line in Windows, you can use the set command before the actual command, and separate them with &&
+in package.json script
+In package.json script
+
+```javascript
+script:{
+"autowaittest": "set URL=http://uitestingplayground.com/ajax && npx playwright test usePageObjects.spec.ts --project=chromium --headed"
+}
+```
+
+## Ternary operator to set default env if not set
+
+```javascript
+baseURL: process.env.URL ? process.env.URL : "http://localhost:4200",
+```
 
 ## References
 

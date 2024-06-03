@@ -1,7 +1,11 @@
 import { test, expect } from "@playwright/test";
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("http://uitestingplayground.com/ajax");
+  //In TypeScript, the ! post-fix expression operator 
+  //is used to assert that its preceding expression is
+  // non-null and non-undefined. In this case, 
+  //it's asserting that process.env.URL is not null or undefined.
+  await page.goto(process.env.URL!);
   const ajaxButton = page.locator("#ajaxButton");
   await ajaxButton.click();
 });
