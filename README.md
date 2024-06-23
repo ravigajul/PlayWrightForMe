@@ -716,21 +716,13 @@ script:{
 }
 ```
 
-Alternatively, set it up in playwright config file 
-
-```javascript
-baseURL: process.evn.URL?process.env.URL:"https://localhost:4000"
-```
+Alternatively, set it up in playwright config file  using ternary operator shown below
 
 ## Ternary operator to set default env if not set
 
 ```javascript
 baseURL: process.env.URL ? process.env.URL : "http://localhost:4200",
 ```
-
-## Fixtures
-
-Playwright Test is based on the concept of test fixtures. Test fixtures are used to establish the environment for each test, giving the test everything it needs and nothing else. Test fixtures are isolated between tests. With fixtures, you can group tests based on their meaning, instead of their common setup. https://playwright.dev/docs/test-fixtures
 
 ## TestOptions
 
@@ -746,6 +738,10 @@ To Extend beyond the playwright provided testoptions like defining your own envi
 ```javascript
 export default defineConfig<TestOptions>({})
   ```
+
+## Fixtures
+
+Playwright Test is based on the concept of test fixtures. Test fixtures are used to establish the environment for each test, giving the test everything it needs and nothing else. Test fixtures are isolated between tests. With fixtures, you can group tests based on their meaning, instead of their common setup. https://playwright.dev/docs/test-fixtures
 
 ## References
 
