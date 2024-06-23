@@ -6,6 +6,7 @@ export class NavigationPage extends BasePage {
     super(page);
   }
 
+  
   async formLayoutsPage() {
     await this.selectGroupMenuItem("Forms");
     await this.page.getByText("Form Layouts").click();

@@ -5,6 +5,10 @@ export class DatepickerPage extends BasePage {
   constructor(page: Page) {
     super(page);
   }
+  /**
+   * 
+   * @param numberOfDaysFromToday : Pass the number of days from today to be selected
+   */
   async selectCommonDatePickerDateFromToday(numberOfDaysFromToday: number) {
     const calendarInputField = this.page.getByPlaceholder("Form Picker");
     await calendarInputField.click();

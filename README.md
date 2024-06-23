@@ -708,9 +708,7 @@ export default defineConfig({
 
 ## Environment Variable dotenv
 
-Install the dotenv package and uncomment the require('dotenv').config() from playwright.config.ts. o pass an environment variable from the command line in Windows, you can use the set command before the actual command, and separate them with &&
-in package.json script
-In package.json script
+Install the dotenv package and uncomment the require('dotenv').config() from playwright.config.ts. o pass an environment variable from the command line in Windows, you can use the set command before the actual command, and separate them with && in package.json script
 
 ```javascript
 script:{
@@ -718,11 +716,36 @@ script:{
 }
 ```
 
+Alternatively, set it up in playwright config file 
+
+```javascript
+baseURL: process.evn.URL?process.env.URL:"https://localhost:4000"
+```
+
 ## Ternary operator to set default env if not set
 
 ```javascript
 baseURL: process.env.URL ? process.env.URL : "http://localhost:4200",
 ```
+
+## Fixtures
+
+Playwright Test is based on the concept of test fixtures. Test fixtures are used to establish the environment for each test, giving the test everything it needs and nothing else. Test fixtures are isolated between tests. With fixtures, you can group tests based on their meaning, instead of their common setup. https://playwright.dev/docs/test-fixtures
+
+## TestOptions
+
+Playwright Test provides many options to configure test environment, Browser, BrowserContext and more. https://playwright.dev/docs/api/class-testoptions  
+To Extend beyond the playwright provided testoptions like defining your own environment variables, do this.
+
+  1. Create test-options.ts file
+  2. Extend base to have your own variables
+  3. Import test options in playwright config and ensure config uses <TestOptions>
+  4. Add userdefined url in use of config.
+  5. Instead of importing test from paywright test import test from test-options.ts in your tests
+
+```javascript
+export default defineConfig<TestOptions>({})
+  ```
 
 ## References
 
