@@ -590,7 +590,7 @@ await page.goto("http://localhost:4200/pages/iot-dashboard");
 Run codegen with --save-storage to save cookies and localStorage at the end of the session. This is useful to separately record an authentication step and reuse it later when recording more tests.
 
 ```javascript
-npx playwright codegen --load-storage=auth.json github.com/microsoft/playwright
+npx playwright codegen  github.com/microsoft/playwright --save-storage=auth.json
 ```
 
 ```javascript
