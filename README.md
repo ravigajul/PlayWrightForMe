@@ -637,6 +637,64 @@ test("mocks a fruit and doesn't call api", async ({ page }) => {
 
 ```
 
+## Intercepting API Response
+```javascript
+
+test('ntercept network request and get response body', async ({ page }) => {
+  // Intercept the network request
+  await page.route('**/todos/1', (route) => route.continue());
+
+  // Navigate to the page that makes the network request
+  await page.goto('https://jsonplaceholder.typicode.com');
+
+  // Perform actions that trigger the network request
+  await page.click('button#run-button'); 
+
+  // Wait for the response and get the response body
+  const response = await page.waitForResponse('**/todos/1');
+  const responseBody = await response.text();
+  console.log('Response Body:', responseBody);
+});
+```
+Let's break down the Playwright code step by step:
+
+1. **Test Definition**:
+   ```javascript
+   test('intercept network request and get response body', async ({ page }) => {
+   ```
+   This line defines a test case named "intercept network request and get response body" using Playwright's test framework. The `async ({ page })` part indicates that the test function is asynchronous and will use a `page` object provided by Playwright.
+
+2. **Intercept Network Request**:
+   ```javascript
+   await page.route('**/todos/1', (route) => route.continue());
+   ```
+   This line sets up a route to intercept network requests matching the URL pattern `**/todos/1`. The `route.continue()` method allows the request to proceed without modification.
+
+3. **Navigate to the Page**:
+   ```javascript
+   await page.goto('https://jsonplaceholder.typicode.com');
+   ```
+   This line navigates the browser to the specified URL, which is a placeholder API for testing purposes.
+
+4. **Trigger the Network Request**:
+   ```javascript
+   await page.click('button#run-button');
+   ```
+   This line simulates a click on a button with the ID `run-button`. This action is expected to trigger the network request to `**/todos/1`.
+
+5. **Wait for the Response**:
+   ```javascript
+   const response = await page.waitForResponse('**/todos/1');
+   ```
+   This line waits for the network response from the URL `**/todos/1`. The `page.waitForResponse` method returns a `Response` object once the request is completed.
+
+6. **Get the Response Body**:
+   ```javascript
+   const responseBody = await response.text();
+   console.log('Response Body:', responseBody);
+   ```
+   These lines extract the response body as a text string using `response.text()` and log it to the console.
+
 ## Retries
 
 ```javascript
