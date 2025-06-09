@@ -8,6 +8,10 @@ Ngx-Admin Angular 14 application from https://github.com/bondar-artem/pw-practic
 npm install --force
 npm start
 ```
+## Disable Strict SSL checking if need be 
+'''
+ npm config set strict-ssl false
+'''
 
 ## Pre-requisites
 
