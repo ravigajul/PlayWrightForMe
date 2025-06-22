@@ -804,8 +804,11 @@ export default defineConfig<TestOptions>({})
 ## Fixtures
 
 Playwright Test is based on the concept of test fixtures. Test fixtures are used to establish the environment for each test, giving the test everything it needs and nothing else. Test fixtures are isolated between tests. With fixtures, you can group tests based on their meaning, instead of their common setup. https://playwright.dev/docs/test-fixtures
+
 ## Trouble shooting
-1. If you encounter no tests found, ensure that the test is named *.spec.ts or *.test.ts . The file should be having keywords spec or test and having extensions .ts or .js or .mjs.
+1. If you encounter no tests found, ensure that the test is named *.spec.ts or *.test.ts . The file should be having keywords spec or test and having extensions .ts or .js or .mjs. - https://playwright.dev/docs/test-configuration#filtering-tests
+2. Remember to use forward slashed when running the tests through cli - https://playwright.dev/docs/test-cli
+
 ## References
 
 1. https://playwright.dev/docs/intro
