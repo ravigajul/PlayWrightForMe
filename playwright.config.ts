@@ -26,6 +26,7 @@ console.log('Path to environment file:', envPath);
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig<TestOptions>({
+ globalSetup: require.resolve('./global-setup'),
   testDir: "./tests",
   //timeout: 20000, //test timeout
   //globalTimeout: 60000, //global timeout
