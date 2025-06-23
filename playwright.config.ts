@@ -1,11 +1,26 @@
 import { defineConfig, devices } from "@playwright/test";
 import type { TestOptions } from "./test-options";
+import dotenv from 'dotenv';
+import path from 'path';
+import fs from 'fs';
+// Load environment variables from .env file
+ // Ensure the path is correct relative to the current file
+ // If your .env file is in the root directory, adjust the path accordingly
+ // For example, if your .env file is in the same directory as this config file:
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-require('dotenv').config();
+// Load env file based on custom ENV variable
+const envFile =  process.env.ENV || 'uat';
+
+const envPath = path.resolve(process.cwd(), `.env.${envFile}`);
+
+if (fs.existsSync(envPath)) {
+   dotenv.config({ path: envPath });
+} else {
+   console.warn(`Warning: Environment file not found: ${envPath}`);
+}
+console.log('Using environment file:', envFile);
+console.log('Path to environment file:', envPath);
 
 /**
  * See https://playwright.dev/docs/test-configuration.
