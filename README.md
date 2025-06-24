@@ -804,6 +804,30 @@ export default defineConfig<TestOptions>({})
 ## Fixtures
 
 Playwright Test is based on the concept of test fixtures. Test fixtures are used to establish the environment for each test, giving the test everything it needs and nothing else. Test fixtures are isolated between tests. With fixtures, you can group tests based on their meaning, instead of their common setup. https://playwright.dev/docs/test-fixtures
+## Adding tags 
+In Playwright, you can add tags as part of the test definition's metadata. Here's an example of how to define tags for tests:
+```
+test('sort by with api mocking', { tag: '@mocking' }, async ({ page }) => {
+  // Mock the API call for sorting by popularity
+  await page.route('*/**/**sort_by=popularity.desc', async (route) => {
+    await route.fulfill({
+      path: path.join(__dirname, '../mocks/sort-by-popularity.json'),
+    });
+  });
+});
+```
+In this example, we've tagged the test with a "@mocking" tag. This metadata will be used to filter tests in reports or command-line execution.
+
+**Running Tests by Tags**
+To run tests with specific tags, you can use the --grep flag followed by a tag name:
+```
+npx playwright test --grep @mocking
+```
+To exclude tests with a specific tag, use the --grep-invert flag:
+```
+npx playwright test --grep-invert @mocking
+```
+
 
 ## Trouble shooting
 1. If you encounter no tests found, ensure that the test is named *.spec.ts or *.test.ts . The file should be having keywords spec or test and having extensions .ts or .js or .mjs. - https://playwright.dev/docs/test-configuration#filtering-tests
