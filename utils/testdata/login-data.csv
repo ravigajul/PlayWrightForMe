@@ -1,0 +1,3 @@
+name,userName,encrypted,iv,expectSuccess
+Valid credentials,ravikumar.gajul@test.com,6493b2bb19e6e7aff95ace39ebf8273f,d7f8713daa34c1395cb0bd40a00ad14a,true
+Invalid credentials,invalid@domain.com,6493b2bb19e6e7aff95ace39ebf8273f,d7f8713daa34c1395cb0bd40a00ad14a,false
