@@ -832,6 +832,7 @@ npx playwright test --grep-invert @mocking
 ## Trouble shooting
 1. If you encounter no tests found, ensure that the test is named *.spec.ts or *.test.ts . The file should be having keywords spec or test and having extensions .ts or .js or .mjs. - https://playwright.dev/docs/test-configuration#filtering-tests
 2. Remember to use forward slashed when running the tests through cli - https://playwright.dev/docs/test-cli
+3. When the debug doesn't work with playwright test for vscode extension,  downgrade vscode extension to 1.0.22.
 
 ## References
 
