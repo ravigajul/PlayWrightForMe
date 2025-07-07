@@ -828,6 +828,8 @@ To exclude tests with a specific tag, use the --grep-invert flag:
 npx playwright test --grep-invert @mocking
 ```
 
+## npm outdated
+The npm outdated command is used to check which installed npm packages are outdated in your project. It compares the versions of your installed packages with the latest versions available in the npm registry.
 
 ## Trouble shooting
 1. If you encounter no tests found, ensure that the test is named *.spec.ts or *.test.ts . The file should be having keywords spec or test and having extensions .ts or .js or .mjs. - https://playwright.dev/docs/test-configuration#filtering-tests
