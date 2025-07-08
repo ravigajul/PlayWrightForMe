@@ -831,6 +831,16 @@ npx playwright test --grep-invert @mocking
 ## npm outdated
 The npm outdated command is used to check which installed npm packages are outdated in your project. It compares the versions of your installed packages with the latest versions available in the npm registry.
 
+## Hide passwords from report using test.step
+```javascript
+
+await test.step('Fill password field (masked)', async () => {
+  await passwordField.fill('********'); // Masked for report
+  await passwordField.fill(password);   // Actual password (not logged)
+});
+
+```
+
 ## Trouble shooting
 1. If you encounter no tests found, ensure that the test is named *.spec.ts or *.test.ts . The file should be having keywords spec or test and having extensions .ts or .js or .mjs. - https://playwright.dev/docs/test-configuration#filtering-tests
 2. Remember to use forward slashed when running the tests through cli - https://playwright.dev/docs/test-cli
